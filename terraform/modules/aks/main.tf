@@ -1,15 +1,15 @@
 
 # AKS Cluster
 resource "azurerm_kubernetes_cluster" "aks_cluster" {
-  name                = "rangersapp-prod-aks"
+  name                = var.aks_cluster_name
   location            = var.location
   resource_group_name = var.resource_group_name
-  dns_prefix          = "rangersapp-prod"
+  dns_prefix          = var.dns_prefix
 
   default_node_pool {
-    name           = "prodpool"
+    name           = var.node_pool_name
     node_count     = 1
-    vm_size        = "Standard_B2s"
+    vm_size        = var.vm_size
     vnet_subnet_id = var.aks_subnet_id
   }
 
@@ -33,7 +33,7 @@ resource "azurerm_kubernetes_cluster" "aks_cluster" {
 
 
 resource "azurerm_container_registry" "acr" {
-  name                     = "rangersacr"
+  name                     = var.acr_name
   resource_group_name      = var.resource_group_name
   location                 = var.location
   sku                      = "Basic"

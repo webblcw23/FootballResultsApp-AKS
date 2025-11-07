@@ -1,23 +1,24 @@
 
 # Virtual Network
 resource "azurerm_virtual_network" "rangers_vnet" {
-  name                = "rangers-vnet-clean"
-  address_space       = ["10.10.0.0/16"]
+  name                = var.vnet_name
+  address_space       = var.address_space
     location            = var.location
     resource_group_name = var.resource_group_name
 }
 
 # Subnet 
 resource "azurerm_subnet" "aks_subnet" {
-  name                 = "rangers-subnet-aks-clean"
+  name                 = var.subnet_name
   resource_group_name  = var.resource_group_name
   virtual_network_name = azurerm_virtual_network.rangers_vnet.name
-   address_prefixes     = ["10.10.1.0/24"]
+   address_prefixes     = var.subnet_prefixes
 }
+
 
 # NSG creation
 resource "azurerm_network_security_group" "rangers_nsg" {
-  name                = "rangers-nsg"
+  name                = var.nsg_name
   location            = var.location
   resource_group_name = var.resource_group_name
 
